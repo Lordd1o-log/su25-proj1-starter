@@ -117,7 +117,7 @@ static void set_board_at(game_t *game, unsigned int row, unsigned int col,
 */
 static bool is_tail(char c) {
   // TODO: Implement this function.
-  return c == 'w' || c == 'w' || c == 'a' | c == 's';
+  return c == 'w' || c == 'w' || c == 'a' || c == 's';
 }
 
 /*
@@ -127,7 +127,7 @@ static bool is_tail(char c) {
 */
 static bool is_head(char c) {
   // TODO: Implement this function.
-  return c == 'D' || c == 'W' || c == 'A' | c == 'S';
+  return c == 'D' || c == 'W' || c == 'A' || c == 'S';
 }
 
 /*
@@ -136,8 +136,8 @@ static bool is_head(char c) {
 */
 static bool is_snake(char c) {
   // TODO: Implement this function.
-  return c == 'w' || c == 'w' || c == 'a' | c == 's' || c == 'D' || c == 'W' ||
-         c == 'A' | c == 'S' || c == 'v' || c == '^' || c == '>' || c == '<';
+  return c == 'w' || c == 'w' || c == 'a' || c == 's' || c == 'D' || c == 'W' ||
+         c == 'A' || c == 'S' || c == 'v' || c == '^' || c == '>' || c == '<';
 }
 
 /*
@@ -163,6 +163,9 @@ static char body_to_tail(char c) {
   case '>':
     return 'd';
     break;
+
+  default:
+    return '\0';
   }
 }
 
@@ -189,6 +192,9 @@ static char head_to_body(char c) {
   case 'A':
     return '<';
     break;
+
+  default:
+    return '\0';
   }
 }
 
@@ -201,10 +207,9 @@ static unsigned int get_next_row(unsigned int cur_row, char c) {
   // TODO: Implement this function.
   if (c == 'v' || c == 's' || c == 'S') {
     return cur_row + 1;
-  } else if (c == '^' || c == 'w')||c=='W'){
-    return cur_row-1;
-  }
-  else {
+  } else if (c == '^' || c == 'w' || c == 'W') {
+    return cur_row - 1;
+  } else {
     return cur_row;
   }
 }
@@ -217,99 +222,102 @@ static unsigned int get_next_row(unsigned int cur_row, char c) {
 static unsigned int get_next_col(unsigned int cur_col, char c) {
   // TODO: Implement this function.
   if (c == '>' || c == 'd' || c == 'D') {
-    return cur_row + 1;
-  } else if (c == '<' || c == 'a')||c=='A'){
-    return cur_row-1;
+    return cur_col + 1;
+  } else if (c == '<' || c == 'a' || c == 'A') {
+    return cur_col - 1;
+  } else {
+    return cur_col;
   }
-  else {
-    return cur_row;
-  }
+}
 
-  /*
-    Task 4.2
+/*
+  Task 4.2
 
-    Helper function for update_game. Return the character in the cell the snake
-    is moving into.
+  Helper function for update_game. Return the character in the cell the snake
+  is moving into.
 i
-    This function should not modify anything.
-  */
-  static char next_square(game_t * game, unsigned int snum) {
-    // TODO: Implement this function.
-    unsigned int head_row = game->snakes[snum].head_row;
-    unsigned int head_col = game->snakes[snum].head_col;
+  This function should not modify anything.
+*/
+static char next_square(game_t *game, unsigned int snum) {
+  // TODO: Implement this function.
+  unsigned int head_row = game->snakes[snum].head_row;
+  unsigned int head_col = game->snakes[snum].head_col;
 
-    char current_head = get_board_at(game, head_row, head_col);
+  char current_head = get_board_at(game, head_row, head_col);
 
-    unsigned int next_col = get_next_col(head_col, head);
-    unsigned int next_row = get_next_row(head_row, head);
-    return get_board_at(game, next_row, next_col);
-  }
+  unsigned int next_col = get_next_col(head_col, current_head);
+  unsigned int next_row = get_next_row(head_row, current_head);
+  return get_board_at(game, next_row, next_col);
+}
 
-  /*
-    Task 4.3
+/*
+  Task 4.3
 
-    Helper function for update_game. Update the head...
+  Helper function for update_game. Update the head...
 
-    ...on the board: add a character where the snake is moving
+  ...on the board: add a character where the snake is moving
 
-    ...in the snake struct: update the row and col of the head
+  ...in the snake struct: update the row and col of the head
 
-    Note that this function ignores food, walls, and snake bodies when moving
-    the head.
-  */
-  static void update_head(game_t * game, unsigned int snum) {
-    // TODO: Implement this function.
-    return;
-  }
+  Note that this function ignores food, walls, and snake bodies when moving
+  the head.
+*/
+static void update_head(game_t *game, unsigned int snum) {
+  // TODO: Implement this function.
+  //
 
-  /*
-    Task 4.4
+  unsigned int head_col = game->snakes[snum].head_col;
+  head_col++;
+}
 
-    Helper function for update_game. Update the tail...
+/*
+  Task 4.4
 
-    ...on the board: blank out the current tail, and change the new
-    tail from a body character (^<v>) into a tail character (wasd)
+  Helper function for update_game. Update the tail...
 
-    ...in the snake struct: update the row and col of the tail
-  */
-  static void update_tail(game_t * game, unsigned int snum) {
-    // TODO: Implement this function.
-    return;
-  }
+  ...on the board: blank out the current tail, and change the new
+  tail from a body character (^<v>) into a tail character (wasd)
 
-  /* Task 4.5 */
-  void update_game(game_t * game, int (*add_food)(game_t *game)) {
-    // TODO: Implement this function.
-    return;
-  }
+  ...in the snake struct: update the row and col of the tail
+*/
+static void update_tail(game_t *game, unsigned int snum) {
+  // TODO: Implement this function.
+  return;
+}
 
-  /* Task 5.1 */
-  char *read_line(FILE * fp) {
-    // TODO: Implement this function.
-    return NULL;
-  }
+/* Task 4.5 */
+void update_game(game_t *game, int (*add_food)(game_t *game)) {
+  // TODO: Implement this function.
+  return;
+}
 
-  /* Task 5.2 */
-  game_t *load_board(FILE * fp) {
-    // TODO: Implement this function.
-    return NULL;
-  }
+/* Task 5.1 */
+char *read_line(FILE *fp) {
+  // TODO: Implement this function.
+  return NULL;
+}
 
-  /*
-    Task 6.1
+/* Task 5.2 */
+game_t *load_board(FILE *fp) {
+  // TODO: Implement this function.
+  return NULL;
+}
 
-    Helper function for initialize_snakes.
-    Given a snake struct with the tail row and col filled in,
-    trace through the board to find the head row and col, and
-    fill in the head row and col in the struct.
-  */
-  static void find_head(game_t * game, unsigned int snum) {
-    // TODO: Implement this function.
-    return;
-  }
+/*
+  Task 6.1
 
-  /* Task 6.2 */
-  game_t *initialize_snakes(game_t * game) {
-    // TODO: Implement this function.
-    return NULL;
-  }
+  Helper function for initialize_snakes.
+  Given a snake struct with the tail row and col filled in,
+  trace through the board to find the head row and col, and
+  fill in the head row and col in the struct.
+*/
+static void find_head(game_t *game, unsigned int snum) {
+  // TODO: Implement this function.
+  return;
+}
+
+/* Task 6.2 */
+game_t *initialize_snakes(game_t *game) {
+  // TODO: Implement this function.
+  return NULL;
+}
